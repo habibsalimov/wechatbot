@@ -489,37 +489,50 @@ export function VercelV0Chat() {
             </div>
 
             <div className="w-full flex flex-col h-full relative">
-                {/* Mesaj geçmişi */}
-                {messages.length > 0 && (
-                    <div className="bg-neutral-900 rounded-xl border border-neutral-800 mb-4 p-4 overflow-y-auto flex-grow max-h-[calc(100vh-16rem)]">
-                        <div className="flex flex-col space-y-4">
-                            {messages.map((message) => (
-                                <div 
-                                    key={message.id}
-                                    className={cn(
-                                        "p-3 rounded-lg max-w-[80%]",
-                                        message.role === "user" 
-                                            ? "bg-neutral-800 ml-auto" 
-                                            : "bg-neutral-700 mr-auto"
-                                    )}
-                                >
-                                    <p className="text-sm text-white whitespace-pre-wrap">
-                                        {message.content}
-                                    </p>
+                {/* Mesaj geçmişi - Artık her zaman görünür */}
+                <div className="bg-neutral-900 rounded-xl border border-neutral-800 mb-4 p-4 overflow-y-auto flex-grow max-h-[calc(100vh-16rem)]">
+                    <div className="flex flex-col space-y-4">
+                        {messages.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center h-32 text-center">
+                                <div className="mb-2 text-white text-opacity-80">
+                                    <BrainCircuit className="w-8 h-8 mx-auto mb-2" />
+                                    <p className="text-sm font-medium">Yapay zeka asistanınız hazır</p>
                                 </div>
-                            ))}
-                            {isLoading && (
-                                <div className="bg-neutral-700 p-3 rounded-lg max-w-[80%] mr-auto flex items-center space-x-2">
-                                    <Loader2 className="w-4 h-4 animate-spin text-white" />
-                                    <p className="text-sm text-white">
-                                        Yanıt yazılıyor...
-                                    </p>
-                                </div>
-                            )}
-                            <div ref={messagesEndRef} />
-                        </div>
+                                <p className="text-xs text-zinc-500 max-w-md">
+                                    Seçilen model: <span className="text-zinc-400">{selectedModel.name}</span>. 
+                                    İstediğiniz soruyu sorabilirsiniz.
+                                </p>
+                            </div>
+                        ) : (
+                            <>
+                                {messages.map((message) => (
+                                    <div 
+                                        key={message.id}
+                                        className={cn(
+                                            "p-3 rounded-lg max-w-[80%]",
+                                            message.role === "user" 
+                                                ? "bg-neutral-800 ml-auto" 
+                                                : "bg-neutral-700 mr-auto"
+                                        )}
+                                    >
+                                        <p className="text-sm text-white whitespace-pre-wrap">
+                                            {message.content}
+                                        </p>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                        {isLoading && (
+                            <div className="bg-neutral-700 p-3 rounded-lg max-w-[80%] mr-auto flex items-center space-x-2">
+                                <Loader2 className="w-4 h-4 animate-spin text-white" />
+                                <p className="text-sm text-white">
+                                    Yanıt yazılıyor...
+                                </p>
+                            </div>
+                        )}
+                        <div ref={messagesEndRef} />
                     </div>
-                )}
+                </div>
                 
                 {/* Input alanı - Alt kısma sabitlendi */}
                 <div className="relative bg-neutral-900 rounded-xl border border-neutral-800 mt-auto sticky bottom-0">
