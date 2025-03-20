@@ -1,0 +1,30 @@
+runtime: nodejs20
+env: standard
+
+instance_class: F2
+
+env_variables:
+  NEXT_PUBLIC_GOOGLE_AI_API_KEY: "AIzaSyADriSfO9rwfVFe0DHCp0aK_Hk0idMj5Yo"
+  NEXT_PUBLIC_DEEPSEEK_API_KEY: "sk-afd45e37548a455d80504b37ac7e2e96"
+  NODE_ENV: "production"
+  PORT: "8080"
+
+handlers:
+  # Next.js static files
+  - url: /_next/static/(.*)
+    static_files: .next/standalone/.next/static/\1
+    upload: .next/standalone/.next/static/(.*)
+    secure: always
+
+  # Public directory files
+  - url: /(.*\.(ico|png|txt|jpg|jpeg|gif|svg|js|css|woff|woff2))$
+    static_files: .next/standalone/public/\1
+    upload: .next/standalone/public/.*\.(ico|png|txt|jpg|jpeg|gif|svg|js|css|woff|woff2)$
+    secure: always
+
+  # All other requests
+  - url: /.*
+    script: auto
+    secure: always
+
+
